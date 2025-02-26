@@ -20,14 +20,14 @@ public class EmployeeController {
 	@GetMapping("/")
     public String showLoginPage(Model model) {
         if (!model.containsAttribute("loginEmployee")) {
-            model.addAttribute("loginEmployee", new Employee()); // Ensure loginEmployee is available
+            model.addAttribute("loginEmployee", new Employee()); 
         }
         if (!model.containsAttribute("employee")) {
-            model.addAttribute("employee", new Employee()); // Ensure employee is available for registration
+            model.addAttribute("employee", new Employee()); 
         }
-        return "index"; // Thymeleaf template name
+        return "index"; 
     }
-
+	
     @PostMapping("/login")
     public String login(@ModelAttribute("loginEmployee") Employee loginEmployee, RedirectAttributes redirectAttributes) {
         // Perform login logic (authentication)
