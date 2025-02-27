@@ -9,7 +9,7 @@ public interface EmployeeService {
 
 	Employee registerEmployee(Employee employee);
 
-	LoginEmployee loginEmployee(LoginEmployee loginDTO);
+	String loginEmployee(LoginEmployee loginDTO);
 
 	boolean existEmailCheck(String email);
 }

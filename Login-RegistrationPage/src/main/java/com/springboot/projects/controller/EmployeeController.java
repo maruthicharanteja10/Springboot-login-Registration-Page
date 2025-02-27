@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.springboot.projects.dto.LoginEmployee;
 import com.springboot.projects.entity.Employee;
 import com.springboot.projects.service.EmployeeService;
 
@@ -29,17 +31,24 @@ public class EmployeeController {
     }
 	
     @PostMapping("/login")
-    public String login(@ModelAttribute("loginEmployee") Employee loginEmployee, RedirectAttributes redirectAttributes) {
-        // Perform login logic (authentication)
-        redirectAttributes.addFlashAttribute("msg", "Login Successful");
-        return "redirect:/";
+    public String login(@ModelAttribute("loginEmployee") LoginEmployee loginEmployee, RedirectAttributes redirectAttributes) {  
+    String	mssge=employeeService.loginEmployee(loginEmployee);
+    if(mssge=="success") {
+        return "home";
+    }
+    redirectAttributes.addFlashAttribute("msge", "Invalid Credntials");
+    return "redirect:/";
     }
 
     @PostMapping("/save")
     public String register(@ModelAttribute("employee") Employee employee, RedirectAttributes redirectAttributes) {
-        // Perform registration logic (save user)
-        redirectAttributes.addFlashAttribute("msg", "Registration Successful");
-        return "redirect:/";
+    	 if (employeeService.existEmailCheck(employee.getEmail())) {
+    	        redirectAttributes.addFlashAttribute("msg", "Email already exists");
+    	        return "redirect:/";
+    	    }
+    	    employeeService.registerEmployee(employee);
+    	    redirectAttributes.addFlashAttribute("msg", "Registration Successful");
+    	    return "redirect:/";
     }
     @GetMapping("/home")
     public String homepage() {

@@ -17,17 +17,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public LoginEmployee loginEmployee(LoginEmployee loginDTO) {
-		Employee employee = employeeRepo.findByEmail(loginDTO.getEmail());
-		if (employee != null && employee.getPassword().equals(loginDTO.getPassword())) {
-			return loginDTO; // Successful login
+	public String loginEmployee(LoginEmployee loginemp) {
+		Employee employee = employeeRepo.findByEmail(loginemp.getEmail());
+		if (employee != null && employee.getPassword().equals(loginemp.getPassword())) {
+			return "success";
+		} else {
+			return "failure";
 		}
-		return null;
 
 	}
 
 	@Override
 	public Employee registerEmployee(Employee employee) {
+		if (employeeRepo.existsByEmail(employee.getEmail())) {
+			return null;
+		}
 		return employeeRepo.save(employee);
 
 	}
